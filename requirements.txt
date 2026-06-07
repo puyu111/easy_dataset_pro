@@ -1,0 +1,22 @@
+# Core dependencies
+numpy>=1.24.0
+networkx>=3.0
+pyyaml>=6.0
+sentence-transformers>=2.2.0
+openai>=1.0.0
+tiktoken>=0.5.0
+pydantic>=2.0.0
+matplotlib>=3.5.0
+neo4j>=5.14.0
+orjson>=3.8.0
+
+# Document preprocessing (optional)
+# docling>=2.0.0
+# pypdf>=5.0.0
+# onnxruntime>=1.26.0
+# datatrove: install from https://github.com/huggingface/datatrove
+#   or set DATATROVE_DIR env var to local path
+
+# Development
+# pytest>=7.0
+# pytest-cov>=4.0
