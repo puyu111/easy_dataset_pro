@@ -1,0 +1,104 @@
+documents:
+  directory: ""  # 文档文件夹路径，设置后自动加载该目录下所有文件
+
+similarity:
+  strategy: cosine  # "cosine" or "dot_product"
+
+chunking:
+  similarity_threshold: 0.75
+  min_chunk_size: 50     # minimum characters per chunk
+  max_chunk_size: 2000   # maximum characters per chunk
+
+embeddings:
+  provider: openai  # "openai" or "sentence-transformers"
+  model: text-embedding-v4
+  openai_model: text-embedding-v4
+  openai_api_key: ""  # 可通过环境变量 OPENAI_API_KEY 设置
+  openai_base_url: ""  # 自定义 API 地址，例如 https://api.openai.com/v1
+  batch_size: 10
+
+graph:
+  extraction_model: openai  # "openai" or "sentence-transformers"
+  extraction_model_name: gpt-4o-mini
+  max_entities_per_chunk: 20
+  max_relations_per_chunk: 40
+  community_detection:
+    resolution: 1.0
+
+retrieval:
+  max_entities: 10
+  neighbor_hops: 2
+  max_community_results: 5
+
+llm:
+  provider: openai  # "openai" or "local"
+  model: gpt-4o-mini
+  api_key: ""  # 可通过环境变量 OPENAI_API_KEY 设置
+  base_url: ""  # 自定义 API 地址，例如 https://api.openai.com/v1
+  temperature: 0.3
+  max_tokens: 2048
+
+neo4j:
+  enabled: true
+  uri: bolt://localhost:7687
+  user: neo4j
+  password: ""  # 可通过环境变量 NEO4J_PASSWORD 设置
+  database: neo4j
+
+rerank:
+  enabled: true
+  provider: openai  # "cross-encoder" or "openai"
+  model: rerank-v3.5
+  api_key: ""
+  base_url: ""  # rerank API 地址
+  top_k: 5       # 重排序后保留的结果数
+  retrieve_k: 20  # 重排序前初始检索的结果数
+
+batch:
+  dataset: "output/dataset/dataset_all.jsonl"  # 数据集路径
+  output: "output/dataset/answers.jsonl"       # 输出文件路径
+  resume: true                                 # 断点续传（跳过已有 answer 的行）
+  save_interval: 10                            # 每 N 条保存一次
+  state: "output/rag_state.pkl"                # RAG 状态文件路径
+  chain_of_thought: false                      # 是否启用思维链（CoT），让 LLM 先推理再给出最终答案
+
+logging:
+  level: INFO
+  directory: logs
+  filename: graphrag.log
+  max_bytes: 10485760      # 10MB, 超过此大小自动轮转
+  backup_count: 5          # 保留最近 5 个备份文件
+  console_enabled: true
+  file_enabled: true
+
+preprocessing:
+  enabled: false         # 是否启用预处理流程
+  docs_dir: "documents"  # 原始文档目录
+  md_dir: ""             # Markdown 输出目录（默认 {docs_dir}_md）
+  filtered_dir: ""       # 过滤后 Markdown 目录
+  compressed_dir: ""     # 压缩后 Markdown 目录
+  output_base: ""        # 输出根目录
+  datatrove_dir: ""      # datatrove 源码路径
+
+  # Stage 1: Docling 文档→Markdown 转换
+  convert_do_ocr: true
+  convert_force_ocr: true
+  convert_max_pages: 20
+  convert_device: auto
+  convert_resume: true
+
+  # Stage 2: datatrove 质量过滤
+  quality_mode: full          # stats / filter / full
+  quality_min_chars: 200
+  quality_min_score: 0.4
+
+  # Stage 3: LLM 压缩
+  compress_max_chunk_tokens: 24000
+  compress_max_output_tokens: 8192
+  compress_concurrency: 1
+  compress_no_chunk: true
+
+  # Stage 4: 数据集生成
+  dataset_max_chunk_tokens: 24000
+  dataset_concurrency: 1
+  dataset_no_chunk: true

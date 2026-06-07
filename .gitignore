@@ -51,3 +51,7 @@ neo4j_data/
 # Environment variables
 .env
 .env.local
+
+# Config files (contains API keys)
+config.yaml
+
