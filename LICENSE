@@ -1,6 +1,9 @@
 MIT License
 
-Copyright (c) 2024 GraphRAG Contributors
+Copyright (c) 2024-present Easy Dataset Pro Contributors
+
+Easy Dataset Pro - 基于知识图谱的 LLM 微调数据集生成与问答系统
+Graph-based Dataset Generation & QA System for LLM Fine-tuning
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
